@@ -6483,11 +6483,11 @@ in {
   };
 
   urllib3 = buildPythonPackage rec {
-    name = "urllib3-1.12";
+    name = "urllib3-1.20";
 
     src = pkgs.fetchurl {
       url = "mirror://pypi/u/urllib3/${name}.tar.gz";
-      sha256 = "1ikj72kd4cdcq7pmmcd5p6s9dvp7wi0zw01635v4xzkid5vi598f";
+      sha256 = "0bx76if7shzlyykmaj4fhjkir5bswc4fdx5r4q0lrn3q51p2pvwp";
     };
 
     doCheck = !isPy3k;  # lots of transient failures
@@ -6502,7 +6502,7 @@ in {
       nosetests -v --cover-min-percentage 1
     '';
 
-    buildInputs = with self; [ coverage tornado mock nose ];
+    buildInputs = with self; [ coverage tornado mock nose psutil pysocks ipaddress ];
 
     meta = {
       description = "A Python library for Dropbox's HTTP-based Core and Datastore APIs";
