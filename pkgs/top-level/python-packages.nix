@@ -292,13 +292,23 @@ in {
 
   aiofiles = callPackage ../development/python-modules/aiofiles { };
 
-  aiohttp = buildPythonPackage rec {
+  aiohttp =
+  let yarl_0_9_8 = self.yarl.overrideAttrs (old: rec {
+    pname = "yarl";
+    version = "0.9.8";
+    name = "${pname}-${version}";
+    src = pkgs.fetchurl {
+      url = "mirror://pypi/${builtins.substring 0 1 pname}/${pname}/${name}.tar.gz";
+      sha256 = "1v2dsmr7bqp0yx51pwhbxyvzza8m2f88prsnbd926mi6ah38p0d7";
+    };
+  });
+  in buildPythonPackage rec {
     name = "aiohttp-${version}";
-    version = "1.1.6";
+    version = "1.3.5";
 
     src = pkgs.fetchurl {
       url = "mirror://pypi/a/aiohttp/${name}.tar.gz";
-      sha256 = "0742feb9759a5832aa4a30abf64e53055e139ed41e26f79b9558d08e05c74d60";
+      sha256 = "0hpqdiaifgyfqmxkyzwypwvrnvz5rqzgzylzhihfidc5ldfs856d";
     };
 
     disabled = pythonOlder "3.4";
@@ -306,12 +316,37 @@ in {
     doCheck = false; # Too many tests fail.
 
     buildInputs = with self; [ pytest gunicorn pytest-raisesregexp ];
-    propagatedBuildInputs = with self; [ async-timeout chardet multidict yarl ];
+    propagatedBuildInputs = with self; [ async-timeout chardet multidict yarl_0_9_8 ];
 
     meta = {
-      description = "http client/server for asyncio";
+      description = "Http client/server for asyncio";
       license = with licenses; [ asl20 ];
       homepage = https://github.com/KeepSafe/aiohttp/;
+    };
+  };
+
+  aiohttp-cors = buildPythonPackage rec {
+    name = "${pname}-${version}";
+    pname = "aiohttp-cors";
+    # 0.5.3 is the current version but gns3-server requires 0.5.1
+    version = "0.5.1";
+
+    src = pkgs.fetchurl {
+      url = "mirror://pypi/a/${pname}/${name}.tar.gz";
+      sha256 = "0szma27ri25fq4nwwvs36myddggw3jz4pyzmq63yz4xpw0jjdxck";
+    };
+
+    # Requires network access
+    doCheck = false;
+
+    propagatedBuildInputs = with self; [ zodb3 aiohttp ]
+      ++ optional (pythonOlder "3.5") typing;
+
+    meta = {
+      description = "CORS support for aiohttp";
+      homepage = "https://github.com/aio-libs/aiohttp-cors";
+      license = licenses.asl20;
+      maintainers = with maintainers; [ primeos ];
     };
   };
 
@@ -2582,7 +2617,7 @@ in {
    meta = {
       homepage = "http://www.buildout.org";
       description = "A software build and configuration system";
-      license = licenses.zpt21;
+      license = licenses.zpl21;
       maintainers = with maintainers; [ garbas ];
     };
   };
@@ -8229,11 +8264,11 @@ in {
   };
 
   raven = buildPythonPackage rec {
-    name = "raven-3.4.1";
+    name = "raven-6.1.0";
 
     src = pkgs.fetchurl {
       url = "mirror://pypi/r/raven/${name}.tar.gz";
-      sha256 = "c27e40ab3ccf37f30a9f77acb4917370d9341e25abda8e94b9bd48c7127f7d48";
+      sha256 = "1158fsjjl8byzl9nw52jhhdssjl6n7l0hjaxm5hdi69v2zxvzjh2";
     };
 
     # way too many dependencies to run tests
@@ -8241,7 +8276,7 @@ in {
     doCheck = false;
 
     meta = {
-      maintainers = with maintainers; [ domenkozar ];
+      maintainers = with maintainers; [ primeos ];
     };
   };
 
@@ -12240,6 +12275,8 @@ in {
     };
   };
 
+  linode-api = callPackage ../development/python-modules/linode-api { };
+
   livereload = buildPythonPackage rec {
     name = "livereload-${version}";
     version = "2.5.0";
@@ -12549,7 +12586,7 @@ in {
     meta = {
       description = "A documentation builder";
       homepage = http://pypi.python.org/pypi/manuel;
-      license = licenses.zpt20;
+      license = licenses.zpl20;
     };
   };
 
@@ -17271,7 +17308,7 @@ in {
     doCheck = false;
     meta = {
       description = "PostgreSQL database adapter for the Python programming language";
-      license = with licenses; [ gpl2 zpt20 ];
+      license = with licenses; [ gpl2 zpl20 ];
     };
   };
 
@@ -21321,7 +21358,7 @@ in {
     meta = {
       description = "Simple generic functions";
       homepage = http://cheeseshop.python.org/pypi/simplegeneric;
-      license = licenses.zpt21;
+      license = licenses.zpl21;
     };
   };
 
@@ -23571,7 +23608,7 @@ in {
     meta = {
       description = "Transaction management";
       homepage = http://pypi.python.org/pypi/transaction;
-      license = licenses.zpt20;
+      license = licenses.zpl20;
     };
   };
 
@@ -23609,7 +23646,7 @@ in {
      meta = {
        description = "A tool which computes a dependency graph between active Python eggs";
        homepage = http://thomas-lotze.de/en/software/eggdeps/;
-       license = licenses.zpt20;
+       license = licenses.zpl20;
      };
    };
 
@@ -24779,7 +24816,7 @@ EOF
     meta = {
       description = "A daemon process control library and tools for Unix-based systems";
       homepage = http://pypi.python.org/pypi/zdaemon;
-      license = licenses.zpt20;
+      license = licenses.zpl20;
       maintainers = with maintainers; [ goibhniu ];
     };
   };
@@ -24815,6 +24852,26 @@ EOF
     };
   });
 
+  zipstream = buildPythonPackage rec {
+    name = "${pname}-${version}";
+    pname = "zipstream";
+    version = "1.1.4";
+
+    src = pkgs.fetchurl {
+      url = "mirror://pypi/z/${pname}/${name}.tar.gz";
+      sha256 = "01im5anqdyggmwkigqcjg0qw2a5bnn84h33mfaqjjd69a28lpwif";
+    };
+
+    buildInputs = with self; [ nose ];
+
+    meta = {
+      description = "A zip archive generator";
+      homepage = "https://github.com/allanlei/python-zipstream";
+      license = licenses.gpl3Plus;
+      maintainers = with maintainers; [ primeos ];
+    };
+  };
+
   zodb3 = buildPythonPackage rec {
     name = "zodb3-${version}";
     version = "3.11.0";
@@ -24830,7 +24887,7 @@ EOF
     meta = {
       description = "An object-oriented database for Python";
       homepage = http://pypi.python.org/pypi/ZODB3;
-      license = licenses.zpt20;
+      license = licenses.zpl20;
       maintainers = with maintainers; [ goibhniu ];
     };
   };
@@ -24852,12 +24909,13 @@ EOF
     preCheck = if isPy3k then ''
       # test failure on py3.4
       rm src/ZODB/tests/testDB.py
+      rm src/ZODB/tests/test_fsdump.py # Error with Python 3.6
     '' else "";
 
     meta = {
       description = "An object-oriented database for Python";
       homepage = http://pypi.python.org/pypi/ZODB;
-      license = licenses.zpt20;
+      license = licenses.zpl20;
       maintainers = with maintainers; [ goibhniu ];
     };
   };
@@ -25063,7 +25121,7 @@ EOF
     meta = {
       description = "An event publishing system";
       homepage = http://pypi.python.org/pypi/zope.event;
-      license = licenses.zpt20;
+      license = licenses.zpl20;
       maintainers = with maintainers; [ goibhniu ];
     };
   };
@@ -25086,7 +25144,7 @@ EOF
      meta = {
        description = "Exception interfaces and implementations";
        homepage = http://pypi.python.org/pypi/zope.exceptions;
-       license = licenses.zpt20;
+       license = licenses.zpl20;
        maintainers = with maintainers; [ goibhniu ];
      };
    };
@@ -25306,7 +25364,7 @@ EOF
     meta = {
       description = "Zope testing helpers";
       homepage =  http://pypi.python.org/pypi/zope.testing;
-      license = licenses.zpt20;
+      license = licenses.zpl20;
       maintainers = with maintainers; [ goibhniu ];
     };
   };
