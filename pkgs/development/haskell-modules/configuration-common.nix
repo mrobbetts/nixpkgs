@@ -27,14 +27,16 @@ self: super: {
   ghcjs-base = null;
   ghcjs-prim = null;
 
-  # Some packages need a non-core version of Cabal.
-  cabal-install = super.cabal-install.overrideScope (self: super: { Cabal = self.Cabal_1_24_2_0; });
+  # cabal-install needs Cabal 2.x. hackage-security's test suite does not compile with
+  # Cabal 2.x, though. See https://github.com/haskell/hackage-security/issues/188.
+  cabal-install = super.cabal-install.overrideScope (self: super: { Cabal = self.Cabal_2_0_0_2; });
+  hackage-security = dontCheck super.hackage-security;
 
   # Link statically to avoid runtime dependency on GHC.
   jailbreak-cabal = (disableSharedExecutables super.jailbreak-cabal).override { Cabal = self.Cabal_1_20_0_4; };
 
   # enable using a local hoogle with extra packagages in the database
-  # nix-shell -p "haskellPackages.hoogleLocal (with haskellPackages; [ mtl lens ])"
+  # nix-shell -p "haskellPackages.hoogleLocal { packages = with haskellPackages; [ mtl lens ]; }"
   # $ hoogle server
   hoogleLocal = { packages ? [] }: self.callPackage ./hoogle.nix { inherit packages; };
 
@@ -84,6 +86,11 @@ self: super: {
     fdo-notify = if pkgs.stdenv.isLinux then self.fdo-notify else null;
     hinotify = if pkgs.stdenv.isLinux then self.hinotify else self.fsnotify;
   };
+
+  # Fix test trying to access /home directory
+  shell-conduit = (overrideCabal super.shell-conduit (drv: {
+    postPatch = "sed -i s/home/tmp/ test/Spec.hs";
+  }));
 
   # https://github.com/froozen/kademlia/issues/2
   kademlia = dontCheck super.kademlia;
@@ -415,6 +422,9 @@ self: super: {
   # https://github.com/basvandijk/threads/issues/10
   threads = dontCheck super.threads;
 
+  # https://github.com/purescript/purescript/pull/3041
+  purescript = doJailbreak super.purescript;
+
   # Missing module.
   rematch = dontCheck super.rematch;            # https://github.com/tcrayford/rematch/issues/5
   rematch-text = dontCheck super.rematch-text;  # https://github.com/tcrayford/rematch/issues/6
@@ -717,9 +727,8 @@ self: super: {
       '';
     });
 
-
-  # https://github.com/plow-technologies/servant-auth/issues/20
-  servant-auth = dontCheck super.servant-auth;
+  # Glob == 0.7.x
+  servant-auth = doJailbreak super.servant-auth;
 
   # https://github.com/pontarius/pontarius-xmpp/issues/105
   pontarius-xmpp = dontCheck super.pontarius-xmpp;
@@ -864,5 +873,11 @@ self: super: {
 
   # https://github.com/vincenthz/hs-tls/issues/247
   tls = dontCheck super.tls;
+
+  # missing dependencies: blaze-html >=0.5 && <0.9, blaze-markup >=0.5 && <0.8
+  digestive-functors-blaze = doJailbreak super.digestive-functors-blaze;
+
+  # missing dependencies: doctest ==0.12.*
+  html-entities = doJailbreak super.html-entities;
 
 }

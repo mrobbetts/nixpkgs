@@ -1,5 +1,5 @@
 skip () {
-    if [ -n "$NIX_DEBUG" ]; then
+    if [ -n "${NIX_DEBUG:-}" ]; then
         echo "skipping impure path $1" >&2
     fi
 }
@@ -24,7 +24,7 @@ badPath() {
 }
 
 expandResponseParams() {
-    declare -g params=("$@")
+    declare -ga params=("$@")
     local arg
     for arg in "$@"; do
         if [[ "$arg" == @* ]]; then

@@ -94,6 +94,7 @@
   campadrenalin = "Philip Horger <campadrenalin@gmail.com>";
   canndrew = "Andrew Cann <shum@canndrew.org>";
   carlsverre = "Carl Sverre <accounts@carlsverre.com>";
+  casey = "Casey Rodarmor <casey@rodarmor.net>";
   cdepillabout = "Dennis Gosnell <cdep.illabout@gmail.com>";
   cfouche = "Chaddaï Fouché <chaddai.fouche@gmail.com>";
   changlinli = "Changlin Li <mail@changlinli.com>";
@@ -292,6 +293,7 @@
   khumba = "Bryan Gardiner <bog@khumba.net>";
   KibaFox = "Kiba Fox <kiba.fox@foxypossibilities.com>";
   kierdavis = "Kier Davis <kierdavis@gmail.com>";
+  kiloreux = "Kiloreux Emperex <kiloreux@gmail.com>";
   kkallio = "Karn Kallio <tierpluspluslists@gmail.com>";
   knedlsepp = "Josef Kemetmüller <josef.kemetmueller@gmail.com>";
   konimex = "Muhammad Herdiansyah <herdiansyah@openmailbox.org>";
@@ -506,6 +508,7 @@
   ryanartecona = "Ryan Artecona <ryanartecona@gmail.com>";
   ryansydnor = "Ryan Sydnor <ryan.t.sydnor@gmail.com>";
   ryantm = "Ryan Mulligan <ryan@ryantm.com>";
+  rybern = "Ryan Bernstein <ryan.bernstein@columbia.edu>";
   rycee = "Robert Helgesson <robert@rycee.net>";
   ryneeverett = "Ryne Everett <ryneeverett@gmail.com>";
   rzetterberg = "Richard Zetterberg <richard.zetterberg@gmail.com>";
@@ -518,6 +521,7 @@
   schneefux = "schneefux <schneefux+nixos_pkg@schneefux.xyz>";
   schristo = "Scott Christopher <schristopher@konputa.com>";
   scolobb = "Sergiu Ivanov <sivanov@colimite.fr>";
+  sdll = "Sasha Illarionov <sasha.delly@gmail.com>";
   sepi = "Raffael Mancini <raffael@mancini.lu>";
   seppeljordan = "Sebastian Jordan <sebastian.jordan.mail@googlemail.com>";
   shanemikel = "Shane Pearlman <shanemikel1@gmail.com>";
@@ -591,6 +595,7 @@
   uwap = "uwap <me@uwap.name>";
   vaibhavsagar = "Vaibhav Sagar <vaibhavsagar@gmail.com>";
   vandenoever = "Jos van den Oever <jos@vandenoever.info>";
+  vanschelven = "Klaas van Schelven <klaas@vanschelven.com>";
   vanzef = "Ivan Solyankin <vanzef@gmail.com>";
   vbgl = "Vincent Laporte <Vincent.Laporte@gmail.com>";
   vbmithr = "Vincent Bernardoff <vb@luminar.eu.org>";
@@ -598,6 +603,7 @@
   vdemeester = "Vincent Demeester <vincent@sbr.pm>";
   veprbl = "Dmitry Kalinkin <veprbl@gmail.com>";
   vifino = "Adrian Pistol <vifino@tty.sh>";
+  vinymeuh = "VinyMeuh <vinymeuh@gmail.com>";
   viric = "Lluís Batlle i Rossell <viric@viric.name>";
   vizanto = "Danny Wilson <danny@prime.vc>";
   vklquevs = "vklquevs <vklquevs@gmail.com>";
