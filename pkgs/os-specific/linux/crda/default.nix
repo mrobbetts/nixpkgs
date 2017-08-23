@@ -14,6 +14,23 @@ stdenv.mkDerivation rec {
     pkgconfig python2Packages.m2crypto python2Packages.python
   ];
 
+  patches = [
+    (fetchurl {
+      url = 
+"https://raw.githubusercontent.com/openembedded/meta-openembedded/f25fd7a2ef99d493afe2e7dbad29cd2a813c93a1/meta-networking/recipes-connectivity/crda/crda/use-target-word-size-instead-of-host-s.patch";
+      sha256 = "0pc3c15967i9wdsa9yfj4kfvj68nvaz1389vd7ssnqnzjjlbwgnm";
+    })
+    (fetchurl {
+       url = 
+"https://raw.githubusercontent.com/openembedded/meta-openembedded/f25fd7a2ef99d493afe2e7dbad29cd2a813c93a1/meta-networking/recipes-connectivity/crda/crda/fix-issues-when-USE_OPENSSL-1.patch";
+       sha256 = "0cyw1clrh8g0ww9lbn2vfwiri1d1gqz0i4fpq7xyfian2v92bpc8";
+    })
+    (fetchurl {
+      url = "https://raw.githubusercontent.com/openembedded/meta-openembedded/f25fd7a2ef99d493afe2e7dbad29cd2a813c93a1/meta-networking/recipes-connectivity/crda/crda/fix-gcc-6-unused-variables.patch";
+      sha256 = "1243021rb31z8czds1ll6gz81xiqlz1ivpxf5aijssvgp3gcs4d6";
+    })
+  ];
+
   postPatch = ''
     patchShebangs utils/
     substituteInPlace Makefile --replace ldconfig true
